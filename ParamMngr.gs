@@ -28,7 +28,7 @@ function getTwitterFollowers() {
 }
 
 function setLiturgicday(obj) {
-  return (parseInt(readParams().getRange("B7").setValue(obj)));
+  readParams().getRange("B7").setValue(JSON.stringify(obj));
 }
 
 function getTelegramSubcribers() {
