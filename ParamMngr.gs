@@ -17,7 +17,7 @@ function lastSentUsers() {
 }
 
 function setlastVerse(num) {
-  return (parseInt(readParams().getRange("B2").setValue(num)));
+  readParams().getRange("B2").setValue(num);
 }
 function setlastSentUsers(num) {
   return (parseInt(readParams().getRange("B3").setValue(num)));

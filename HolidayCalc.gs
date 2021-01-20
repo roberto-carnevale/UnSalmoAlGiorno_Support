@@ -10,7 +10,7 @@ function createYear() {
   var testDate = new Date(2021, 0, 1);
   testDate.setUTCHours(12,0,0,0);
   var numDate = testDate.getTime();
-  for (var i = 1; i< 1000; i++) {
+  for (var i = 1; i< 366; i++) {
     testDate.setTime(numDate);
     let res = checkHoliday(testDate);
     sh.getRange("A"+i).setValue(testDate);
@@ -27,17 +27,15 @@ function createYear() {
 function checkHoliday(testDate) {
   //set noon UTC
   testDate.setUTCHours(12, 0,0,0);
-  //return object
-  var holiday = null;
   // Easter & Christmas dates
   var easter = getEasterDay(testDate.getFullYear());
   var adventIVSun = getLastAdventSun(testDate.getFullYear());
   var dateBattesimoVar = dateBattesimo(testDate.getFullYear());
   // calc differences
-  let easterdifference = Math.trunc( ( testDate - easter ) / millisPerDay );
-  let adventdifference = Math.trunc( ( testDate - adventIVSun ) / millisPerDay );
+  let easterdifference = Math.trunc( ( testDate - easter.getTime() ) / millisPerDay );
+  let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay );
   //initialize object
-  currentDay = new DayDescription();
+  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null };
 
   //tempi forti liturgici
   if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
@@ -65,7 +63,7 @@ function checkHoliday(testDate) {
     case 49:  {currentDay.name="Pentecoste";currentDay.holy="S";currentDay.color="R";currentDay.psalm="G";break;}
     case 50:  {currentDay.name="Beata Maria Vergine Madre della Chiesa";currentDay.holy="M";currentDay.color="A";currentDay.psalm="L";break;}
     case 56:  {currentDay.name="Santissima Trinità";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
-    case 60:  {currentDay.name="Corpus Domini";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
+    case 63:  {currentDay.name="Corpus Domini";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
     case 68:  {currentDay.name="Sacratissimo Cuore di Gesù";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
   }
   if (currentDay.holy) {return currentDay;}
@@ -85,7 +83,7 @@ function checkHoliday(testDate) {
 
   // Solennittà mobili di Natale
   switch (adventdifference) {
-    case -42: {currentDay.name="Inizio Avvento Ambrosiano (Cristo Re)"; currentDay.holy="N";currentDay.psalm="L";break;}
+    case -42: {currentDay.name="XXXII Settimana, Inizio Avvento Ambrosiano"; currentDay.holy="N";currentDay.psalm="L";break;}
     case -28: {currentDay.name="Nostro Signore Gesù Cristo Re dell’Universo"; currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
     case -21: {currentDay.name="I Domenica di Avvento"; currentDay.holy="N";break;}
     case -14: {currentDay.name="II Domenica di Avvento"; currentDay.holy="N";break;}
@@ -95,7 +93,7 @@ function checkHoliday(testDate) {
   if (currentDay.holy) {return currentDay;}
 
   // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
-  if (testDate-dateBattesimoVar == 0) {currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
+  if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
   if (isSacraFamiglia(testDate)) {currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
 
   // Fixed Holidays
@@ -116,10 +114,35 @@ function checkHoliday(testDate) {
     case "2612": {currentDay.name="S. Stefano"; currentDay.holy="F";currentDay.color="R";currentDay.psalm="B";break;}
   }
   if (currentDay.holy) {return currentDay;}
-
+  
+  ///// if is Sunday ordinary tempo
+  if (testDate.getUTCDay() == 0 && currentDay.tempo=="O") {
+    var sunCount = 0;
+    if (testDate.getTime()-easter.getTime()-46*millisPerDay <0) {
+      //before Mercoledì delle Ceneri
+      sunCount = 1;
+      while (testDate.getTime()-(sunCount*millisPerDay*7)-dateBattesimoVar.getTime() > 0){
+        sunCount++;
+      }
+      sunCount++;
+      } else {
+      //se dopo Pasqua
+      let w33num = adventIVSun.getTime()-(35*millisPerDay);
+      let tempSunCount = 0;
+      while (testDate.getTime()+(tempSunCount*millisPerDay*7)-w33num != 0){
+        tempSunCount++;
+      }
+      sunCount = 33 - tempSunCount;
+    }
+    currentDay.psalm="G";
+    currentDay.holy="N"
+    currentDay.name= dictR2A[sunCount]+" Settimana del Tempo Ordinario"
+    return currentDay;
+  }
+  
   //Memorie e Solennità fisse di II categoria
   switch (stringCheck) {
-    case "0201": {currentDay.name="Santi Basilio Magno e Gregorio Nazianzeno";currentDay.color="R";currentDay.holy="M";break;}
+    case "0201": {currentDay.name="Santi Basilio Magno e Gregorio Nazianzeno";currentDay.color="W";currentDay.holy="M";break;}
     case "1701": {currentDay.name="S. Antonio";currentDay.color="W";currentDay.holy="M";break;}
     case "2101": {currentDay.name="Sant'Agnese";currentDay.color="R";currentDay.holy="M";break;}
     case "2401": {currentDay.name="San Francesco di Sales";currentDay.color="W";currentDay.holy="M";break;}
@@ -218,19 +241,18 @@ function checkHoliday(testDate) {
 
   // standard day, no holiday or feast or solemnity
   switch (currentDay.tempo) {
-    case "A": {currentDay.psalm="L"; if(currentDay.holy){currentDay.holy="N"};break;}
-    case "N": {currentDay.psalm="B"; if(currentDay.holy){currentDay.holy="N"};break;}
-    case "Q": {currentDay.psalm="D"; if(currentDay.holy){currentDay.holy="N"};break;}
-    case "P": {currentDay.psalm="G"; if(currentDay.holy){currentDay.holy="N"};break;}
+    case "A": {currentDay.psalm="L";break;}
+    case "N": {currentDay.psalm="B";break;}
+    case "Q": {currentDay.psalm="D";break;}
+    case "P": {currentDay.psalm="G";break;}
     case "O": {
       switch (testDate.getUTCDay()) {
-        case 0: {currentDay.psalm="G"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 1: {currentDay.psalm="B"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 2: {currentDay.psalm="D"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 3: {currentDay.psalm="G"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 4: {currentDay.psalm="L"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 5: {currentDay.psalm="D"; if(currentDay.holy){currentDay.holy="N"};break;}
-        case 6: {currentDay.psalm="B"; if(currentDay.holy){currentDay.holy="N"};break;}
+        case 1: {currentDay.psalm="B";break;}
+        case 2: {currentDay.psalm="D";break;}
+        case 3: {currentDay.psalm="G";break;}
+        case 4: {currentDay.psalm="L";break;}
+        case 5: {currentDay.psalm="D";break;}
+        case 6: {currentDay.psalm="B";break;}
       }
     }
   }

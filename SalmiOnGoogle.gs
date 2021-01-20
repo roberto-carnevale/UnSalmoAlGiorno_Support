@@ -3,7 +3,7 @@ function SalmiOnGoogle() {
   this.tabData = SpreadsheetApp.openById(SalmiDBSpreadsheet).getSheetByName(SalmiDBByTypeTab);
 }
 
-//Draws a tray
+//Draws a verse matching the type
 SalmiOnGoogle.prototype.selectTypeVerse = function(type) {
   //gets the seed
   var seedT = parseInt( Math.random() * ( parseInt(this.tabData.getRange("A1").getValue() ) )) +2;
