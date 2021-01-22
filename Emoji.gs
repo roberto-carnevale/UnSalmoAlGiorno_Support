@@ -25,9 +25,45 @@ const dayColor= {
   A:EmojiRosary
 }
 
+const stringColor= {
+  G:"verdi",
+  V:"viola",
+  W:"bianchi",
+  R:"rossi",
+  S:"rosa",
+  B:"neri",
+  A:"azzurri",
+}
+
+const codeColor= {
+  G:"#008000",
+  V:"#8000FF",
+  W:"#FFD700",
+  R:"#A61022",
+  S:"#E75480",
+  B:"#FFFFFF",
+  A:"#ABCDEF",
+}
+
 const dayTempo = {
   A:EmojiCandle,
   Q:EmojiHolyCross,
   N:EmojiComet,
-  P:EmojiHolySpirit
+  P:EmojiHolySpirit,
+  O:""
+}
+
+const stringsHoly = {
+  S: "nella Solennità di ",
+  F: "nella Festa di ",
+  M: "in Memoria di ",
+  N: " "
+}
+
+const stringsTempo = {
+  A: "nel tempo di Avvento ",
+  Q: "in tempo di Quaresima ",
+  P: "nel tempo Pasquale ",
+  N: "in tempo Natalizio ",
+  O: "nel tempo ordinario "
 }
