@@ -5,24 +5,7 @@ function testDate() {
   Logger.log("Date: "+testDate);
   Logger.log("Res : "+checkHoliday(testDate));
 }
-function createYear() {
-  var sh = SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName('TEST_Y');
-  var testDate = new Date(2021, 0, 1);
-  testDate.setUTCHours(12,0,0,0);
-  var numDate = testDate.getTime();
-  for (var i = 1; i< 366; i++) {
-    testDate.setTime(numDate);
-    let res = checkHoliday(testDate);
-    sh.getRange("A"+i).setValue(testDate);
-    sh.getRange("B"+i).setValue(res.name);
-    sh.getRange("C"+i).setValue(res.color);
-    sh.getRange("D"+i).setValue(res.tempo);
-    sh.getRange("E"+i).setValue(res.holy);
-    sh.getRange("F"+i).setValue(res.psalm);
-    numDate += 86400000;
-  }
 
-}
 
 function checkHoliday(testDate) {
   //set noon UTC
@@ -107,7 +90,7 @@ function checkHoliday(testDate) {
     case "1508": {currentDay.name="Assunzione"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="G";break;}
     case "0809": {currentDay.name="Natività della Beata Vergine Maria";currentDay.color="W";currentDay.holy="F";currentDay.psalm="L";break;}
     case "0111": {currentDay.name="Ognissanti"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="G";break;}
-    case "0211": {currentDay.name="Commemorazione defunti"; currentDay.holy="N";currentDay.color="V";currentDay.psalm="L";break;}
+    case "0211": {currentDay.name="Commemorazione defunti"; currentDay.holy="N";currentDay.color="B";currentDay.psalm="L";break;}
     case "0712": {currentDay.name="S. Ambrogio"; currentDay.holy="M";currentDay.color="W";currentDay.psalm="L";break;}
     case "0812": {currentDay.name="Immacolata Concezione della Beata Vergine Maria";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
     case "2512": {currentDay.name="Natale del Signore"; currentDay.holy="S";currentDay.psalm="L";break;}
@@ -136,7 +119,7 @@ function checkHoliday(testDate) {
     }
     currentDay.psalm="G";
     currentDay.holy="N"
-    currentDay.name= dictR2A[sunCount]+" Settimana del Tempo Ordinario"
+    currentDay.name= dictR2A[sunCount]+" Settimana"
     return currentDay;
   }
   
@@ -190,7 +173,7 @@ function checkHoliday(testDate) {
     case "0408": {currentDay.name="San Giovanni Maria Vianney";currentDay.color="W";currentDay.holy="M";break;}
     case "0808": {currentDay.name="San Domenico";currentDay.color="W";currentDay.holy="M";break;}
     case "1008": {currentDay.name="S. Lorenzo";currentDay.color="R";currentDay.holy="F";break;}
-    case "1108": {currentDay.name="Santa Chiara";currentDay.color="w";currentDay.holy="M";break;}
+    case "1108": {currentDay.name="Santa Chiara";currentDay.color="W";currentDay.holy="M";break;}
     case "1408": {currentDay.name="S. Massimiliano Maria Kolbe";currentDay.color="R";currentDay.holy="M";break;}
     case "2008": {currentDay.name="S. Bernardo";currentDay.color="W";currentDay.holy="M";break;}
     case "2108": {currentDay.name="S. Pio X";currentDay.color="W";currentDay.holy="M";break;}
