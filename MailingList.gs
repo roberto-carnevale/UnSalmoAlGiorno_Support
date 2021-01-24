@@ -17,5 +17,4 @@ function sendDayAfter() {
   if (tempTom.holy) {stringHoly=stringsHoly[tempTom.holy];}
   let htmlVerse = "<html><body><font style='color:"+codeColor[tempTom.color]+"'><b>Oggi paramenti "+stringColor[tempTom.color]+"</b><br/></font>Preghiamo "+stringsTempo[tempTom.tempo]+stringHoly+dayName+"<br/><br/></body></html>";
    MailApp.sendEmail("kn35roby@gmail.com","Il Giorno di Domani", JSON.stringify(tempTom), {htmlBody : htmlVerse});
-
 }
