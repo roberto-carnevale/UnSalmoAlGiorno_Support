@@ -35,6 +35,10 @@ function getTelegramSubcribers() {
   return SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName("Subscribers").getDataRange().getNumRows();
 }
 
+function getLiturgicDay() {
+  return JSON.parse(readParams().getRange("B7").getValue());
+}
+
 function getFacebookLikes() {
   return (parseInt(readParams().getRange("B6").getValue()));
 }

@@ -29,6 +29,20 @@ SalmiOnGoogle.prototype.niceVerseForWeb = function(seedW) {
   return htmlVerse;
 }
 
+SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
+  let seedW = lastVerse();
+  let verseRaw = this.tabData.getRange("A"+seedW+":D"+seedW).getValues();
+  let dayObj = getLiturgicDay();
+  let dayName = "";
+  let stringHoly = "";
+  if (dayObj.name) {dayName=dayObj.name;}
+  if (dayObj.holy) {stringHoly=stringsHoly[dayObj.holy];}
+  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>Oggi paramenti "+stringColor[dayObj.color]+"</b><br/></font>Preghiamo "+stringsTempo[dayObj.tempo]+stringHoly+dayName+"<br/><br/>";
+  htmlVerse += verseRaw[0][0]+","+verseRaw[0][2] + "<br/>" + verseRaw[0][3].toString().replace(/###/g,"<br/>")+"</body></html>";
+  Logger.log(htmlVerse);
+  return htmlVerse;
+}
+
 //Testing function. Use locally
 function test(){
   var f = new SalmiOnGoogle();
