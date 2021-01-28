@@ -119,7 +119,9 @@ function checkHoliday(testDate) {
     }
     currentDay.psalm="G";
     currentDay.holy="N"
+
     currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana"
+
     return currentDay;
   }
   
