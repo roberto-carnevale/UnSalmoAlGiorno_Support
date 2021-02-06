@@ -1,6 +1,7 @@
 function SalmiOnGoogle() {
   //set up tab
   this.tabData = SpreadsheetApp.openById(SalmiDBSpreadsheet).getSheetByName(SalmiDBByTypeTab);
+  this.tabSpecial = SpreadsheetApp.openById(SalmiDBSpreadsheet).getSheetByName("special-days");
 }
 
 //Draws a verse matching the type
@@ -23,11 +24,10 @@ SalmiOnGoogle.prototype.getVerseData = function(seedT) {
   return this.tabData.getRange("A"+seedT.toString()+":D"+seedT.toString()).getValues();
 }
 
-SalmiOnGoogle.prototype.niceVerseForWeb = function(seedW) {
-  let verseRaw = this.tabData.getRange("A"+seedW+":D"+seedW).getValues();
-  let htmlVerse = verseRaw[0][0]+","+verseRaw[0][2] + "<br/>" + verseRaw[0][3].toString().replace(/###/g,"<br/>");
-  return htmlVerse;
-}
+// SalmiOnGoogle.prototype.niceVerseForWeb = function() {
+//   let htmlVerse = lastVerseFull().toString().replace(/###/g,"<br/>");
+//   return htmlVerse;
+// }
 
 SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
   let seedW = lastVerse();
@@ -38,17 +38,39 @@ SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
   if (dayObj.name) {dayName=dayObj.name;}
   if (dayObj.holy) {stringHoly=stringsHoly[dayObj.holy];}
   let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>Oggi paramenti "+stringColor[dayObj.color]+"</b><br/></font>Preghiamo "+stringsTempo[dayObj.tempo]+stringHoly+dayName+"<br/><br/>";
-  htmlVerse += verseRaw[0][0]+","+verseRaw[0][2] + "<br/>" + verseRaw[0][3].toString().replace(/###/g,"<br/>")+"</body></html>";
+  htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
   Logger.log(htmlVerse);
   return htmlVerse;
 }
 
+//Draws a verse matching the type
+SalmiOnGoogle.prototype.selectSpecialCite = function(special) {
+  let specialVerse = null;
+  let found = -1;
+  // gets data from special array
+  let specialArray = this.tabSpecial.getRange("1:1").getValues();
+  for (let i in specialArray[0]) {
+    if (specialArray[0][i] == special) {found = parseInt(i)+1; break;}
+  }
+  // gets all the verses (still not implemented)
+  //this.tabSpecial.getRange(2,found+1,1000,1).getValues();
+  
+  if (found > 0) {
+    specialVerse =  this.tabSpecial.getRange(2,found,1,1).getValue();
+    parseInt(readParams().getRange("B8").setValue(specialVerse));
+  } else {
+    let verseRaw =this.getVerseData(lastVerse());
+    let verse = verseRaw[0][0]+","+verseRaw[0][2] + "###" + verseRaw[0][3].toString()
+    readParams().getRange("B8").setValue(verse);
+  }
+}
+
+
 //Testing function. Use locally
 function test(){
   var f = new SalmiOnGoogle();
-  var r = f.selectTypeVerse("L");
-  var s = new SalmiOnGoogle();
-  Logger.log(s.niceVerseForWeb(r));
+  var r = f.selectSpecialCite("P-47");
+  Logger.log(f);
 }
     
 

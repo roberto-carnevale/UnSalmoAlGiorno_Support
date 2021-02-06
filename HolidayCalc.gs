@@ -49,7 +49,7 @@ function checkHoliday(testDate) {
     case 63:  {currentDay.name="Corpus Domini";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
     case 68:  {currentDay.name="Sacratissimo Cuore di Gesù";currentDay.holy="S";currentDay.color="W";currentDay.psalm="G";break;}
   }
-  if (currentDay.holy) {return currentDay;}
+  if (currentDay.holy) {currentDay.special="P"+easterdifference.toString();return currentDay;}
 
   // Festività e Memorie mobili di Pasqua
   switch (easterdifference) {
@@ -62,7 +62,7 @@ function checkHoliday(testDate) {
     case 68:  {currentDay.name="Sacratissimo Cuore di Gesù";currentDay.holy="S";currentDay.color="W";currentDay.psalm="L";break;}
     case 69:  {currentDay.name="Cuore Immacolato della Beata Vergine Maria";currentDay.holy="M";currentDay.color="A";currentDay.psalm="B";break;}
   }
-  if (currentDay.holy) {return currentDay;}
+  if (currentDay.holy) {currentDay.special="P"+easterdifference.toString();return currentDay;}
 
   // Solennittà mobili di Natale
   switch (adventdifference) {
@@ -73,11 +73,11 @@ function checkHoliday(testDate) {
     case -7: {currentDay.name="III Domenica di Avvento"; currentDay.holy="N";break;}
     case 0:  {currentDay.name="VI Domenica di Avvento"; currentDay.holy="N";break;}
   }
-  if (currentDay.holy) {return currentDay;}
+  if (currentDay.holy) {currentDay.special="N"+adventdifference.toString();return currentDay;}
 
   // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
-  if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
-  if (isSacraFamiglia(testDate)) {currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
+  if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.special="Battesimo del Signore";currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
+  if (isSacraFamiglia(testDate)) {currentDay.special="Santa Famiglia di Gesù, Maria e Giuseppe";currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
 
   // Fixed Holidays
   let stringCheck = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');
@@ -96,7 +96,7 @@ function checkHoliday(testDate) {
     case "2512": {currentDay.name="Natale del Signore"; currentDay.holy="S";currentDay.psalm="L";break;}
     case "2612": {currentDay.name="S. Stefano"; currentDay.holy="F";currentDay.color="R";currentDay.psalm="B";break;}
   }
-  if (currentDay.holy) {return currentDay;}
+  if (currentDay.holy) {currentDay.special=stringCheck;return currentDay;}
   
   ///// if is Sunday ordinary tempo
   if (testDate.getUTCDay() == 0 && currentDay.tempo=="O") {
@@ -119,9 +119,8 @@ function checkHoliday(testDate) {
     }
     currentDay.psalm="G";
     currentDay.holy="N"
-
-    currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana"
-
+    currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana";
+    currentDay.special="D"+dictR2A[sunCount];
     return currentDay;
   }
   
@@ -241,6 +240,112 @@ function checkHoliday(testDate) {
       }
     }
   }
+  currentDay.special=stringCheck;
   return currentDay;
 }
 
+calendarData = SpreadsheetApp.openById('1SChzmNnXtXz8r83xv4QntBnl5ZyOv3kQj9DHrbrxXFM').getSheetByName('Calendar').getDataRange().getValues();
+function checkHolidayParametric(testDate) {
+  //var calendarData = SpreadsheetApp.openById('1SChzmNnXtXz8r83xv4QntBnl5ZyOv3kQj9DHrbrxXFM').getSheetByName('Calendar').getDataRange().getValues();
+  //set noon UTC
+  testDate.setUTCHours(12, 0,0,0);
+  // Easter & Christmas dates
+  var easter = getEasterDay(testDate.getFullYear());
+  var adventIVSun = getLastAdventSun(testDate.getFullYear());
+  var dateBattesimoVar = dateBattesimo(testDate.getFullYear());
+  // calc differences
+  let easterdifference = Math.trunc( ( testDate - easter.getTime() ) / millisPerDay );
+  let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay );
+  //initialize object
+  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null };
+
+  //tempi forti liturgici
+  if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
+  if (easterdifference >= 0 && easterdifference <50) {currentDay.psalm="G";currentDay.color="W";currentDay.tempo = "P";}
+  if (adventdifference >= -21 && adventdifference <6) {currentDay.psalm="L";currentDay.color="V";currentDay.tempo = "A";}
+  if (testDate.getUTCMonth() == 0 && testDate.getUTCDate() <= dateBattesimoVar.getUTCDate()) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
+  if (testDate.getUTCMonth() == 11 && testDate.getUTCDate() >= 25) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
+
+  let search="P"+easterdifference.toString();
+  currentDay = findDay(calendarData, 1,search, currentDay);
+  if (currentDay.holy) {currentDay.special=search;return currentDay;}
+
+  // Solennittà mobili di Natale
+  search="A"+adventdifference.toString();
+  currentDay = findDay(calendarData, 1, search, currentDay);
+  if (currentDay.holy) {currentDay.special=search;return currentDay;}
+
+  // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
+  if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.special="Battesimo del Signore";currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
+  if (isSacraFamiglia(testDate)) {currentDay.special="Santa Famiglia di Gesù, Maria e Giuseppe";currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
+
+  // Fixed Holidays --- ATTENTION HERE TO MOVE ONLY NEEDFUL!!!!
+  search = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');
+  currentDay = findDay(calendarData, 2, search, currentDay);
+  if (currentDay.holy) {currentDay.special=search;return currentDay;}
+  
+  ///// if is Sunday ordinary tempo
+  if (testDate.getUTCDay() == 0 && currentDay.tempo=="O") {
+    var sunCount = 0;
+    if (testDate.getTime()-easter.getTime()-46*millisPerDay <0) {
+      //before Mercoledì delle Ceneri
+      sunCount = 1;
+      while (testDate.getTime()-(sunCount*millisPerDay*7)-dateBattesimoVar.getTime() > 0){
+        sunCount++;
+      }
+      sunCount++;
+      } else {
+      //se dopo Pasqua
+      let w33num = adventIVSun.getTime()-(35*millisPerDay);
+      let tempSunCount = 0;
+      while (testDate.getTime()+(tempSunCount*millisPerDay*7)-w33num != 0){
+        tempSunCount++;
+      }
+      sunCount = 33 - tempSunCount;
+    }
+    currentDay.psalm="G";
+    currentDay.holy="N"
+    currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana";
+    currentDay.special="D"+dictR2A[sunCount];
+    return currentDay;
+  }
+    // Fixed Holidays --- ATTENTION HERE TO MOVE ONLY NEEDFUL!!!!
+  currentDay = findDay(calendarData, 3, search, currentDay);
+  if (currentDay.holy) {currentDay.special=search;return currentDay;}
+
+  // standard day, no holiday or feast or solemnity
+  switch (currentDay.tempo) {
+    case "A": {currentDay.psalm="L";break;}
+    case "N": {currentDay.psalm="B";break;}
+    case "Q": {currentDay.psalm="D";break;}
+    case "P": {currentDay.psalm="G";break;}
+    case "O": {
+      switch (testDate.getUTCDay()) {
+        case 1: {currentDay.psalm="B";break;}
+        case 2: {currentDay.psalm="D";break;}
+        case 3: {currentDay.psalm="G";break;}
+        case 4: {currentDay.psalm="L";break;}
+        case 5: {currentDay.psalm="D";break;}
+        case 6: {currentDay.psalm="B";break;}
+      }
+    }
+  }
+  currentDay.special=search;
+  return currentDay;
+}
+
+function findDay (calendarData, level, search, currentDayObj) {
+  for (let i in calendarData) {
+    if (level == calendarData[i][1]){
+      if (search == calendarData[i][0]) {
+        currentDayObj.name = calendarData[i][3];
+        currentDayObj.holy = calendarData[i][4];
+        if (calendarData[i][1]) {currentDayObj.text = calendarData[i][2];}
+        if (calendarData[i][4]) {currentDayObj.color = calendarData[i][5];}
+        if (calendarData[i][5]) {currentDayObj.psalm = calendarData[i][6];}
+      }
+    }
+  }
+  return currentDayObj;
+
+}

@@ -3,7 +3,7 @@ function sendMailingList() {
   let sog = new SalmiOnGoogle();
   var htmlProlog = sog.niceVerseForMailingList();
   for (var row in dataMailingList) {
-    MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlProlog});
+    MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlProlog, name:"Un Salmo al giorno"});
   }
 }
 

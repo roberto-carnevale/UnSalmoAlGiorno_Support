@@ -25,7 +25,6 @@ const dayColor= {
   A:EmojiRosary
 }
 
-
 const stringColor= {
   G:"verdi",
   V:"viola",
@@ -46,6 +45,12 @@ const codeColor= {
   A:"#ABCDEF",
 }
 
+const dayTempo = {
+  A:EmojiCandle,
+  Q:EmojiHolyCross,
+  N:EmojiComet,
+  P:EmojiHolySpirit,
+  O:""
 }
 
 const stringsHoly = {
@@ -57,8 +62,8 @@ const stringsHoly = {
 
 const stringsTempo = {
   A: "nel tempo di Avvento ",
-  Q: "in tempo di Quaresima ",
-  P: "nel tempo Pasquale ",
-  N: "in tempo Natalizio ",
+  Q: "nel tempo di Quaresima ",
+  P: "nel tempo di Pasqua ",
+  N: "nel tempo di Natale ",
   O: "nel tempo ordinario "
 }
