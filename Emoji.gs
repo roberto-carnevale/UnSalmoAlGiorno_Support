@@ -15,24 +15,25 @@ const EmojiFamily="👨‍👩‍👦";
 const EmojiComet="☄️";
 const EmojiSOS="🆘";
 
-const dayColor= {
+const emojiColor= {
   G:EmojiGreenCircle,
   V:EmojiVioletCircle,
   W:EmojiWhiteCircle,
   R:EmojiRedCricle,
   S:EmojiCandle,
   B:EmojiBlackCircle,
-  A:EmojiRosary
+  A:EmojiRosary,
+  T:EmojiPray
 }
 
 const stringColor= {
-  G:"verdi",
+  G:"verde",
   V:"viola",
-  W:"bianchi",
-  R:"rossi",
+  W:"bianco",
+  R:"rosso",
   S:"rosa",
-  B:"neri",
-  A:"azzurri",
+  B:"nero",
+  A:"azzurro",
 }
 
 const codeColor= {
@@ -45,26 +46,27 @@ const codeColor= {
   A:"#ABCDEF",
 }
 
-const dayTempo = {
-  A:EmojiCandle,
-  Q:EmojiHolyCross,
-  N:EmojiComet,
-  P:EmojiHolySpirit,
-  O:""
+const emojiTempo = {
+  A:EmojiCandle +" ",
+  Q:EmojiHolyCross +" ",
+  N:EmojiComet +" ",
+  P:EmojiHolySpirit +" ",
+  O:"",
+  T:EmojiPray +" "
 }
 
 const stringsHoly = {
-  S: "nella Solennità di ",
-  F: "nella Festa di ",
-  M: "in Memoria di ",
-  N: " "
+  S: "Solennità: ",
+  F: "Festa: ",
+  M: "Memoria: ",
+  N: "",
 }
 
 const stringsTempo = {
-  A: "nel tempo di Avvento ",
-  Q: "nel tempo di Quaresima ",
-  P: "nel tempo di Pasqua ",
-  N: "nel tempo di Natale ",
-  O: "nel tempo ordinario ",
-  T: "nel Triduo Pasquale "
+  A: "Tempo di Avvento",
+  Q: "Tempo di Quaresima",
+  P: "Tempo di Pasqua",
+  N: "Tempo di Natale",
+  O: "Tempo ordinario",
+  T: "Triduo Pasquale"
 }

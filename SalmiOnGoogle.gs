@@ -40,7 +40,7 @@ SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
   let stringHoly = "";
   if (dayObj.name) {dayName=dayObj.name;}
   if (dayObj.holy) {stringHoly=stringsHoly[dayObj.holy];}
-  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>Oggi paramenti "+stringColor[dayObj.color]+"</b><br/></font>Preghiamo "+stringsTempo[dayObj.tempo]+stringHoly+dayName+"<br/><br/>";
+  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>Oggi paramenti "+stringColor[dayObj.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>");
   htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
   Logger.log(htmlVerse);
   return htmlVerse;

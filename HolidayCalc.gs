@@ -263,6 +263,24 @@ function checkHolidayParametric(testDate) {
   //initialize object
   currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null };
 
+  // standard day, no holiday or feast or solemnity
+  switch (currentDay.tempo) {
+    case "A": {currentDay.psalm="L";break;}
+    case "N": {currentDay.psalm="B";break;}
+    case "Q": {currentDay.psalm="D";break;}
+    case "P": {currentDay.psalm="G";break;}
+    case "O": {
+      switch (testDate.getUTCDay()) {
+        case 1: {currentDay.psalm="B";break;}
+        case 2: {currentDay.psalm="D";break;}
+        case 3: {currentDay.psalm="G";break;}
+        case 4: {currentDay.psalm="L";break;}
+        case 5: {currentDay.psalm="D";break;}
+        case 6: {currentDay.psalm="B";break;}
+      }
+    }
+  }
+
   //tempi forti liturgici
   if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
   if (easterdifference >= 0 && easterdifference <50) {currentDay.psalm="G";currentDay.color="W";currentDay.tempo = "P";}
@@ -271,25 +289,29 @@ function checkHolidayParametric(testDate) {
   if (testDate.getUTCMonth() == 11 && testDate.getUTCDate() >= 25) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
 
   let search="P"+easterdifference.toString();
+  //triduo Pasquale
+  if (search=="P-1" || search=="P-2" || search=="P-3") {currentDay.tempo="T";}
+  //search for 1st level Easter mobile days
   currentDay = findDay(sog.calendarMovingData, 1,search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
-
-  // Solennittà mobili di Natale
+  
+  // search for 1st level Advent mobile days
   search="A"+adventdifference.toString();
   currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
   // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
-  /////TO BE TRASPOSED
-  if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.special="Battesimo del Signore";currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
-  if (isSacraFamiglia(testDate)) {currentDay.special="Santa Famiglia di Gesù, Maria e Giuseppe";currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
+  if (testDate-dateBattesimoVar.getTime() == 0) {search="battesimo";}
+  if (isSacraFamiglia(testDate)) {search="sacra_famiglia";}
+  currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
+  if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
   // Fixed Holidays
   search = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');
   currentDay = findIndexDay(sog.calendarFixData, testDate, 2, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
   
-  ///// if is Sunday ordinary tempo
+  ///// if is Sunday ordinary tempo has precedences on 3rd level memories/feasts
   if (testDate.getUTCDay() == 0 && currentDay.tempo=="O") {
     var sunCount = 0;
     if (testDate.getTime()-easter.getTime()-46*millisPerDay <0) {
@@ -308,42 +330,32 @@ function checkHolidayParametric(testDate) {
       }
       sunCount = 33 - tempSunCount;
     }
+    let liturgicYear = (testDate.getFullYear() % 3);
     currentDay.psalm="G";
     currentDay.holy="N";
-    currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana";
+    currentDay.name= "Domenica della "+dictR2A[sunCount]+" Settimana " + yearEncode[liturgicYear];
     currentDay.special="D"+dictR2A[sunCount];
     return currentDay;
   }
-    // Fixed Holidays --- ATTENTION HERE TO MOVE ONLY NEEDFUL!!!!
+
+    // Fixed Holidays 3rd levels
   currentDay = findIndexDay(sog.calendarFixData, testDate,  3, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
-  // standard day, no holiday or feast or solemnity
-  switch (currentDay.tempo) {
-    case "A": {currentDay.psalm="L";break;}
-    case "N": {currentDay.psalm="B";break;}
-    case "Q": {currentDay.psalm="D";break;}
-    case "P": {currentDay.psalm="G";break;}
-    case "O": {
-      switch (testDate.getUTCDay()) {
-        case 1: {currentDay.psalm="B";break;}
-        case 2: {currentDay.psalm="D";break;}
-        case 3: {currentDay.psalm="G";break;}
-        case 4: {currentDay.psalm="L";break;}
-        case 5: {currentDay.psalm="D";break;}
-        case 6: {currentDay.psalm="B";break;}
-      }
-    }
-  }
+  //if noormal day is there completion of the schema
   currentDay.holy="N";
   currentDay.special=search;
   return currentDay;
 }
 
 function findDay (calendarData, level, search, currentDayObj) {
+  //search mobile days
   for (let i in calendarData) {
+    //if right level
     if (level == calendarData[i][1]){
+      //if exists
       if (search == calendarData[i][0]) {
+        //complete data
         currentDayObj.name = calendarData[i][3];
         currentDayObj.holy = calendarData[i][4];
         if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
@@ -367,6 +379,7 @@ function findIndexDay (calendarData, testDate, level, currentDayObj) {
   var index = Math.round(diff / 86400000) + 1;
   if (testDate.getFullYear() % 4 != 0 && testDate.getUTCMonth() > 1) { index++; }
 
+  //if there's something in the line... complete day
   if (level == calendarData[index][1]){
     if (calendarData[index][3] && calendarData[index][3] != "") {currentDayObj.name = calendarData[index][3];}
     if (calendarData[index][4] && calendarData[index][4] != "") {currentDayObj.holy = calendarData[index][4];}

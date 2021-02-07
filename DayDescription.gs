@@ -23,8 +23,17 @@ color:
   V: Viola
   A: Azzurro
   S: Rosa
+year:
+  1: A
+  2: B
+  3: C
 */
 
+const yearEncode = {
+  1: "Anno A",
+  2: "Anno B",
+  3: "Anno C"
+}
 
 const dictR2A={2:"II",
 3:"III",
