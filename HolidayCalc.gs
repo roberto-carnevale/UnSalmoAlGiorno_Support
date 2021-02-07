@@ -244,9 +244,13 @@ function checkHoliday(testDate) {
   return currentDay;
 }
 
-calendarData = SpreadsheetApp.openById('1SChzmNnXtXz8r83xv4QntBnl5ZyOv3kQj9DHrbrxXFM').getSheetByName('Calendar').getDataRange().getValues();
+/////////////////////////////NEW CODE!!!
+/////////////////////////////NEW CODE!!!
+/////////////////////////////NEW CODE!!!
+/////////////////////////////NEW CODE!!!
+
 function checkHolidayParametric(testDate) {
-  //var calendarData = SpreadsheetApp.openById('1SChzmNnXtXz8r83xv4QntBnl5ZyOv3kQj9DHrbrxXFM').getSheetByName('Calendar').getDataRange().getValues();
+  sog = new SalmiOnGoogle();
   //set noon UTC
   testDate.setUTCHours(12, 0,0,0);
   // Easter & Christmas dates
@@ -267,21 +271,22 @@ function checkHolidayParametric(testDate) {
   if (testDate.getUTCMonth() == 11 && testDate.getUTCDate() >= 25) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
 
   let search="P"+easterdifference.toString();
-  currentDay = findDay(calendarData, 1,search, currentDay);
+  currentDay = findDay(sog.calendarMovingData, 1,search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
   // Solennittà mobili di Natale
   search="A"+adventdifference.toString();
-  currentDay = findDay(calendarData, 1, search, currentDay);
+  currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
   // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
+  /////TO BE TRASPOSED
   if (testDate-dateBattesimoVar.getTime() == 0) {currentDay.special="Battesimo del Signore";currentDay.name="Battesimo del Signore"; currentDay.holy="S";currentDay.psalm="L";return currentDay;}
   if (isSacraFamiglia(testDate)) {currentDay.special="Santa Famiglia di Gesù, Maria e Giuseppe";currentDay.name="Santa Famiglia di Gesù, Maria e Giuseppe"; currentDay.holy="F";currentDay.color="W";currentDay.psalm="B";return currentDay;}
 
-  // Fixed Holidays --- ATTENTION HERE TO MOVE ONLY NEEDFUL!!!!
+  // Fixed Holidays
   search = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');
-  currentDay = findDay(calendarData, 2, search, currentDay);
+  currentDay = findIndexDay(sog.calendarFixData, testDate, 2, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
   
   ///// if is Sunday ordinary tempo
@@ -304,13 +309,13 @@ function checkHolidayParametric(testDate) {
       sunCount = 33 - tempSunCount;
     }
     currentDay.psalm="G";
-    currentDay.holy="N"
+    currentDay.holy="N";
     currentDay.name= "nella Domenica della "+dictR2A[sunCount]+" Settimana";
     currentDay.special="D"+dictR2A[sunCount];
     return currentDay;
   }
     // Fixed Holidays --- ATTENTION HERE TO MOVE ONLY NEEDFUL!!!!
-  currentDay = findDay(calendarData, 3, search, currentDay);
+  currentDay = findIndexDay(sog.calendarFixData, testDate,  3, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
   // standard day, no holiday or feast or solemnity
@@ -330,6 +335,7 @@ function checkHolidayParametric(testDate) {
       }
     }
   }
+  currentDay.holy="N";
   currentDay.special=search;
   return currentDay;
 }
@@ -340,11 +346,36 @@ function findDay (calendarData, level, search, currentDayObj) {
       if (search == calendarData[i][0]) {
         currentDayObj.name = calendarData[i][3];
         currentDayObj.holy = calendarData[i][4];
-        if (calendarData[i][1]) {currentDayObj.text = calendarData[i][2];}
-        if (calendarData[i][4]) {currentDayObj.color = calendarData[i][5];}
-        if (calendarData[i][5]) {currentDayObj.psalm = calendarData[i][6];}
+        if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
+        if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
+        if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
+        if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
+        if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
+        if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
       }
     }
+  }
+  return currentDayObj;
+
+}
+
+function findIndexDay (calendarData, testDate, level, currentDayObj) {
+  
+  //calculates the number of days from 1 Jan
+  let start = new Date(testDate.getFullYear(), 0, 1, 12 ,0 ,0,0);
+  let diff = (testDate - start);
+  var index = Math.round(diff / 86400000) + 1;
+  if (testDate.getFullYear() % 4 != 0 && testDate.getUTCMonth() > 1) { index++; }
+
+  if (level == calendarData[index][1]){
+    if (calendarData[index][3] && calendarData[index][3] != "") {currentDayObj.name = calendarData[index][3];}
+    if (calendarData[index][4] && calendarData[index][4] != "") {currentDayObj.holy = calendarData[index][4];}
+    if (calendarData[index][2] && calendarData[index][2] != "") {currentDayObj.text = calendarData[index][2];}
+    if (calendarData[index][5] && calendarData[index][5] != "") {currentDayObj.color = calendarData[index][5];}
+    if (calendarData[index][6] && calendarData[index][6] != "") {currentDayObj.psalm = calendarData[index][6];}
+    if (calendarData[index][7] && calendarData[index][7] != "") {currentDayObj.yearA = calendarData[index][7];}
+    if (calendarData[index][8] && calendarData[index][8] != "") {currentDayObj.yearB = calendarData[index][8];}
+    if (calendarData[index][9] && calendarData[index][9] != "") {currentDayObj.yearC = calendarData[index][9];}
   }
   return currentDayObj;
 

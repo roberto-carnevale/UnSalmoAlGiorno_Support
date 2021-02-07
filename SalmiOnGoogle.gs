@@ -1,7 +1,10 @@
 function SalmiOnGoogle() {
   //set up tab
-  this.tabData = SpreadsheetApp.openById(SalmiDBSpreadsheet).getSheetByName(SalmiDBByTypeTab);
-  this.tabSpecial = SpreadsheetApp.openById(SalmiDBSpreadsheet).getSheetByName("special-days");
+  this.dataSpreadsheet = SpreadsheetApp.openById(SalmiDBSpreadsheet);
+  this.tabData = this.dataSpreadsheet.getSheetByName(SalmiDBByTypeTab);
+  this.tabSpecial = this.dataSpreadsheet.getSheetByName("special-days");
+  this.calendarFixData = this.dataSpreadsheet.getSheetByName(SalmiDBFixCal).getDataRange().getValues();
+  this.calendarMovingData = this.dataSpreadsheet.getSheetByName(SalmiDBMovingCal).getDataRange().getValues();
 }
 
 //Draws a verse matching the type

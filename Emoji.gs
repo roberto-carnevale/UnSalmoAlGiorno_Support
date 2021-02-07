@@ -65,5 +65,6 @@ const stringsTempo = {
   Q: "nel tempo di Quaresima ",
   P: "nel tempo di Pasqua ",
   N: "nel tempo di Natale ",
-  O: "nel tempo ordinario "
+  O: "nel tempo ordinario ",
+  T: "nel Triduo Pasquale "
 }

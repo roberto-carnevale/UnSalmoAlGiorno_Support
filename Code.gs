@@ -53,6 +53,9 @@ function createYear2() {
     sh.getRange("G"+i).setValue(res.special);
     sh.getRange("H"+i).setValue("Preghiamo "+stringsTempo[res.tempo]+stringsHoly[res.holy]+res.name);
     sh.getRange("I"+i).setValue(res.text);
+    sh.getRange("J"+i).setValue(res.yearA);
+    sh.getRange("K"+i).setValue(res.yearB);
+    sh.getRange("L"+i).setValue(res.yearC);
     numDate += 86400000;
   }
 
