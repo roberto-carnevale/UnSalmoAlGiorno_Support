@@ -9,13 +9,14 @@ function checkDate() {
     seedLine = sog.selectTypeVerse(jsonObj.psalm);
     setlastVerse(seedLine);
     sog.selectSpecialCite(jsonObj.special);
+
     
     if (jsonObj.text && jsonObj.text!="") {
       setdayFull(jsonObj.text);
     } else {
       setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
     }  
-      
+
   } catch (err) {
     MailApp.sendEmail("kn35roby@gmail.com", "Holiday Calculator Exception", err.toString() + "\r\n" + err.stack.toString())
   }
@@ -64,6 +65,7 @@ function createYear2() {
     sh.getRange("J"+i).setValue(res.yearA);
     sh.getRange("K"+i).setValue(res.yearB);
     sh.getRange("L"+i).setValue(res.yearC);
+
     numDate += 86400000;
   }
 
