@@ -2,7 +2,7 @@ function checkDate() {
   var testDate = new Date();
   testDate.setUTCHours(12,0,0,0);
   try {
-    let jsonObj = checkHoliday(testDate);
+    let jsonObj = checkHolidayParametric(testDate);
     setLiturgicday(jsonObj);
 
     sog = new SalmiOnGoogle();
@@ -10,8 +10,11 @@ function checkDate() {
     setlastVerse(seedLine);
     sog.selectSpecialCite(jsonObj.special);
     
-    if (jsonObj.text && jsonObj.text!="") {setdayFull(jsonObj.text);} else {
-    setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+res.name+"###Preghiamo!"); }  
+    if (jsonObj.text && jsonObj.text!="") {
+      setdayFull(jsonObj.text);
+    } else {
+      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name+"###Preghiamo!");
+    }  
       
   } catch (err) {
     MailApp.sendEmail("kn35roby@gmail.com", "Holiday Calculator Exception", err.toString() + "\r\n" + err.stack.toString())
