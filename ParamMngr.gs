@@ -12,6 +12,11 @@ function sendMessage() {
 function lastVerse() {
   return (parseInt(readParams().getRange("B2").getValue()));
 }
+
+function lastVerseFull() {
+  return readParams().getRange("B8").getValue();
+}
+
 function lastSentUsers() {
   return (parseInt(readParams().getRange("B3").getValue()));
 }
@@ -20,7 +25,7 @@ function setlastVerse(num) {
   readParams().getRange("B2").setValue(num);
 }
 function setlastSentUsers(num) {
-  return (parseInt(readParams().getRange("B3").setValue(num)));
+  parseInt(readParams().getRange("B3").setValue(num));
 }
 
 function getTwitterFollowers() {

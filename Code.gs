@@ -8,7 +8,7 @@ function checkDate() {
     sog = new SalmiOnGoogle();
     seedLine = sog.selectTypeVerse(jsonObj.psalm);
     setlastVerse(seedLine);
-    
+    sog.selectSpecialCite(jsonObj.special);
   } catch (err) {
     MailApp.sendEmail("kn35roby@gmail.com", "Holiday Calculator Exception", err.toString() + "\r\n" + err.stack.toString())
   }
@@ -29,6 +29,7 @@ function createYear() {
     sh.getRange("D"+i).setValue(res.tempo + dayTempo[res.tempo]);
     sh.getRange("E"+i).setValue(res.holy);
     sh.getRange("F"+i).setValue(res.psalm);
+    sh.getRange("G"+i).setValue(res.special);
     numDate += 86400000;
   }
 
