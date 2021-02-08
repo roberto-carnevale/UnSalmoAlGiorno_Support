@@ -36,6 +36,16 @@ const stringColor= {
   A:"azzurro",
 }
 
+const stringColorMailingList= {
+  G:"Oggi paramenti verdi",
+  V:"Oggi paramenti viola",
+  W:"Oggi paramenti bianchi",
+  R:"Oggi paramenti rossi",
+  S:"Oggi paramenti rosa",
+  B:"Oggi paramenti neri",
+  A:"Oggi gioranta Mariana",
+}
+
 const codeColor= {
   G:"#008000",
   V:"#8000FF",

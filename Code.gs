@@ -13,7 +13,7 @@ function checkDate() {
     if (jsonObj.text && jsonObj.text!="") {
       setdayFull(jsonObj.text);
     } else {
-      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name+"###Preghiamo!");
+      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
     }  
       
   } catch (err) {
