@@ -249,6 +249,7 @@ function checkHoliday(testDate) {
 /////////////////////////////NEW CODE!!!
 /////////////////////////////NEW CODE!!!
 
+
 function checkHolidayParametric(testDate) {
   sog = new SalmiOnGoogle();
   //set noon UTC
@@ -261,7 +262,8 @@ function checkHolidayParametric(testDate) {
   let easterdifference = Math.trunc( ( testDate - easter.getTime() ) / millisPerDay );
   let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay );
   //initialize object
-  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null };
+  let liturgicYear = (testDate.getFullYear() % 3);
+  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear};
 
   // standard day, no holiday or feast or solemnity
   switch (currentDay.tempo) {

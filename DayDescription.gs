@@ -32,7 +32,7 @@ year:
 const yearEncode = {
   1: "Anno A",
   2: "Anno B",
-  3: "Anno C"
+  0: "Anno C"
 }
 
 const dictR2A={2:"II",

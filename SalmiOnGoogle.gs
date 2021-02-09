@@ -32,40 +32,16 @@ SalmiOnGoogle.prototype.getVerseData = function(seedT) {
 //   return htmlVerse;
 // }
 
-SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
-  let seedW = lastVerse();
-  let verseRaw = this.tabData.getRange("A"+seedW+":D"+seedW).getValues();
-  let dayObj = getLiturgicDay();
-  let dayName = "";
-  let stringHoly = "";
-  if (dayObj.name) {dayName=dayObj.name;}
-  if (dayObj.holy) {stringHoly=stringsHoly[dayObj.holy];}
-  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>"+stringColorMailingList[dayObj.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>")+"<br/>";
-  htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
-  Logger.log(htmlVerse);
-  return htmlVerse;
-}
-
 //Draws a verse matching the type
-SalmiOnGoogle.prototype.selectSpecialCite = function(special) {
-  let specialVerse = null;
-  let found = -1;
-  // gets data from special array
-  let specialArray = this.tabSpecial.getRange("1:1").getValues();
-  for (let i in specialArray[0]) {
-    if (specialArray[0][i] == special) {found = parseInt(i)+1; break;}
+SalmiOnGoogle.prototype.getFinalVerse = function(seedLine, jsonDay) {
+  let verseRaw = this.getVerseData(seedLine);
+  let finalVerse = verseRaw[0][0]+","+verseRaw[0][2] + "###" + verseRaw[0][3].toString();
+  switch (jsonDay.liturgicYear) {
+    case 1: if (jsonDay.yearA && jsonDay.yearA != "") {finalVerse =jsonDay.yearA; break; }
+    case 2: if (jsonDay.yearB && jsonDay.yearB != "") {finalVerse =jsonDay.yearB; break; }
+    case 0: if (jsonDay.yearC && jsonDay.yearC != "") {finalVerse =jsonDay.yearC; break; }
   }
-  // gets all the verses (still not implemented)
-  //this.tabSpecial.getRange(2,found+1,1000,1).getValues();
-  
-  if (found > 0) {
-    specialVerse =  this.tabSpecial.getRange(2,found,1,1).getValue();
-    parseInt(readParams().getRange("B8").setValue(specialVerse));
-  } else {
-    let verseRaw =this.getVerseData(lastVerse());
-    let verse = verseRaw[0][0]+","+verseRaw[0][2] + "###" + verseRaw[0][3].toString()
-    readParams().getRange("B8").setValue(verse);
-  }
+  return finalVerse;
 }
 
 

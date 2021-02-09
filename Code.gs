@@ -5,10 +5,10 @@ function checkDate() {
     let jsonObj = checkHolidayParametric(testDate);
     setLiturgicday(jsonObj);
 
-    sog = new SalmiOnGoogle();
-    seedLine = sog.selectTypeVerse(jsonObj.psalm);
+    var sog = new SalmiOnGoogle();
+    let seedLine = sog.selectTypeVerse(jsonObj.psalm);
     setlastVerse(seedLine);
-    sog.selectSpecialCite(jsonObj.special);
+    setVerseFull(sog.getFinalVerse(seedLine, jsonObj));
     
     if (jsonObj.text && jsonObj.text!="") {
       setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+jsonObj.text);
