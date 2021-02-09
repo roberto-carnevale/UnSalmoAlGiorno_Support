@@ -56,7 +56,6 @@ const codeColor= {
   A:"#ABCDEF",
 }
 
-
 const emojiTempo = {
   A:EmojiCandle +" ",
   Q:EmojiHolyCross +" ",
@@ -64,7 +63,6 @@ const emojiTempo = {
   P:EmojiHolySpirit +" ",
   O:"",
   T:EmojiPray +" "
-
 }
 
 const stringsHoly = {

@@ -1,13 +1,11 @@
 function SalmiOnGoogle() {
   //set up tab
-
   this.dataSpreadsheet = SpreadsheetApp.openById(SalmiDBSpreadsheet);
   this.tabData = this.dataSpreadsheet.getSheetByName(SalmiDBByTypeTab);
   this.tabSpecial = this.dataSpreadsheet.getSheetByName("special-days");
   this.calendarFixData = this.dataSpreadsheet.getSheetByName(SalmiDBFixCal).getDataRange().getValues();
   this.calendarMovingData = this.dataSpreadsheet.getSheetByName(SalmiDBMovingCal).getDataRange().getValues();
-
-
+}
 
 //Draws a verse matching the type
 SalmiOnGoogle.prototype.selectTypeVerse = function(type) {
@@ -42,9 +40,7 @@ SalmiOnGoogle.prototype.niceVerseForMailingList = function() {
   let stringHoly = "";
   if (dayObj.name) {dayName=dayObj.name;}
   if (dayObj.holy) {stringHoly=stringsHoly[dayObj.holy];}
-
-  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>"+stringColorMailingList[tempTom.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>")+"<br/>";
-
+  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>"+stringColorMailingList[dayObj.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>")+"<br/>";
   htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
   Logger.log(htmlVerse);
   return htmlVerse;
