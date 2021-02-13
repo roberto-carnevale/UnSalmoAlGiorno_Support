@@ -286,7 +286,7 @@ function checkHolidayParametric(testDate) {
   //tempi forti liturgici
   if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
   if (easterdifference >= 0 && easterdifference <50) {currentDay.psalm="G";currentDay.color="W";currentDay.tempo = "P";}
-  if (adventdifference >= -21 && adventdifference <6) {currentDay.psalm="L";currentDay.color="V";currentDay.tempo = "A";}
+  if (adventdifference >= -21 && adventdifference <7) {currentDay.psalm="L";currentDay.color="V";currentDay.tempo = "A";}
   if (testDate.getUTCMonth() == 0 && testDate.getUTCDate() <= dateBattesimoVar.getUTCDate()) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
   if (testDate.getUTCMonth() == 11 && testDate.getUTCDate() >= 25) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
 

@@ -50,7 +50,7 @@ function createYear() {
 
 function createYear2() {
   var sh = SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName('TEST_Y');
-  var testDate = new Date(2021, 0, 1);
+  var testDate = new Date(2022, 0, 1);
   testDate.setUTCHours(12,0,0,0);
   var numDate = testDate.getTime();
   for (var i = 1; i< 366; i++) {
