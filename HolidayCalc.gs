@@ -305,10 +305,9 @@ function checkHolidayParametric(testDate) {
   // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe e Dedicazione Duomo
   if (testDate-dateBattesimoVar.getTime() == 0) {search="battesimo";}
   if (isSacraFamiglia(testDate)) {search="sacra_famiglia";}
+  if (isDedicazioneDuomo(testDate)) {search="dedicazione_duomo";}
   currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
-    if (isDedicazioneDuomo(testDate)) {search="dedicazione_duomo";}
-  currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
 
   // Fixed Holidays
   search = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');
