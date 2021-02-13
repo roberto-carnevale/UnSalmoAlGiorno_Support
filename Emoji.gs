@@ -14,6 +14,7 @@ const EmojiHolySpirit="🕊️";
 const EmojiFamily="👨‍👩‍👦";
 const EmojiComet="☄️";
 const EmojiSOS="🆘";
+const EmojiGreenBook = "📗";
 
 const emojiColor= {
   G:EmojiGreenCircle,
@@ -61,7 +62,7 @@ const emojiTempo = {
   Q:EmojiHolyCross +" ",
   N:EmojiComet +" ",
   P:EmojiHolySpirit +" ",
-  O:"",
+  O:EmojiGreenBook + " ",
   T:EmojiPray +" "
 }
 
@@ -69,6 +70,7 @@ const stringsHoly = {
   S: "Solennità: ",
   F: "Festa: ",
   M: "Memoria: ",
+  m: "Memoria facoltativa: ",
   N: "",
 }
 

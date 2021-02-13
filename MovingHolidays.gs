@@ -42,7 +42,7 @@ function isSacraFamiglia(date) {
     while (dateToCheck.getDay() != 0) {
         dateToCheck.setUTCDate(dateToCheck.getUTCDate()-1);
     }
-    if (dateToCheck.getDate() <= 26) {dateToCheck.setUTCDate(30);}
+    if (dateToCheck.getDate() < 26) {dateToCheck.setUTCDate(30);}
     if (dateToCheck-date==0) {return true;}
   }
   return false;
@@ -55,6 +55,13 @@ function dateBattesimo(yyyy) {
       dateToCheck.setUTCDate(dateToCheck.getUTCDate()+1);
   }
   return dateToCheck;
+}
+
+function isDedicazioneDuomo(date) {
+  if (date.getUTCMonth() == 9 && date.getUTCDate() >=15 && date.getUTCDate() <=21 && date.getDay() == 0) {
+      return true;
+  }
+  return false;
 }
 
 function leapYear(year)

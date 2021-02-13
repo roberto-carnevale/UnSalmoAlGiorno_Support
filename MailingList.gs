@@ -1,20 +1,11 @@
 function sendMailingList() {
   var dataMailingList = SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName("MailingList").getDataRange().getValues();
-  let sog = new SalmiOnGoogle();
-  var htmlProlog = sog.niceVerseForMailingList();
-  for (var row in dataMailingList) {
-    MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlProlog, name:"Un Salmo al giorno"});
-  }
-}
 
-function sendDayAfter() {
-  let testDate = new Date();
-  testDate.setTime(testDate.getTime()+86400000);
-  let tempTom = checkHoliday(testDate);
-  let dayName = "";
-  let stringHoly = "";
-  if (tempTom.name) {dayName=tempTom.name;}
-  if (tempTom.holy) {stringHoly=stringsHoly[tempTom.holy];}
-  let htmlVerse = "<html><body><font style='color:"+codeColor[tempTom.color]+"'><b>"+stringColorMailingList[tempTom.color]+"</b></font><br/>Preghiamo<br/>"+stringsTempo[tempTom.tempo]+stringHoly+dayName+"<br/><br/></body></html>";
-   MailApp.sendEmail("kn35roby@gmail.com","Il Giorno di Domani", JSON.stringify(tempTom), {htmlBody : htmlVerse});
+  let dayObj = getLiturgicDay();
+  let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>"+stringColorMailingList[dayObj.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>")+"<br/>";
+  htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
+
+  for (var row in dataMailingList) {
+    MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlVerse, name:"Un Salmo al giorno"});
+  }
 }

@@ -249,6 +249,7 @@ function checkHoliday(testDate) {
 /////////////////////////////NEW CODE!!!
 /////////////////////////////NEW CODE!!!
 
+
 function checkHolidayParametric(testDate) {
   sog = new SalmiOnGoogle();
   //set noon UTC
@@ -261,7 +262,8 @@ function checkHolidayParametric(testDate) {
   let easterdifference = Math.trunc( ( testDate - easter.getTime() ) / millisPerDay );
   let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay );
   //initialize object
-  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null };
+  let liturgicYear = (testDate.getFullYear() % 3);
+  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear};
 
   // standard day, no holiday or feast or solemnity
   switch (currentDay.tempo) {
@@ -300,11 +302,13 @@ function checkHolidayParametric(testDate) {
   currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
 
-  // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe
+  // Search for Battesimo del Signore & Santa Famiglia di Gesù, Maria e Giuseppe e Dedicazione Duomo
   if (testDate-dateBattesimoVar.getTime() == 0) {search="battesimo";}
   if (isSacraFamiglia(testDate)) {search="sacra_famiglia";}
   currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
   if (currentDay.holy) {currentDay.special=search;return currentDay;}
+    if (isDedicazioneDuomo(testDate)) {search="dedicazione_duomo";}
+  currentDay = findDay(sog.calendarMovingData, 1, search, currentDay);
 
   // Fixed Holidays
   search = testDate.getUTCDate().toString().padStart(2, '0')+((testDate.getUTCMonth())+1).toString().padStart(2, '0');

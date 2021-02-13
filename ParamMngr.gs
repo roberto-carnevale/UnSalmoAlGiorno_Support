@@ -16,6 +16,9 @@ function lastVerse() {
 function lastVerseFull() {
   return readParams().getRange("B8").getValue();
 }
+function setVerseFull(string) {
+  readParams().getRange("B8").setValue(string);
+}
 
 function setdayFull(string) {
   readParams().getRange("B9").setValue(string);
