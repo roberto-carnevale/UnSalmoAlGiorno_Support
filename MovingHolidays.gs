@@ -42,7 +42,7 @@ function isSacraFamiglia(date) {
     while (dateToCheck.getDay() != 0) {
         dateToCheck.setUTCDate(dateToCheck.getUTCDate()-1);
     }
-    if (dateToCheck.getDate() <= 26) {dateToCheck.setUTCDate(30);}
+    if (dateToCheck.getDate() < 26) {dateToCheck.setUTCDate(30);}
     if (dateToCheck-date==0) {return true;}
   }
   return false;

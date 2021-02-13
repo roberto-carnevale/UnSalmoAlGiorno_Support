@@ -70,6 +70,7 @@ const stringsHoly = {
   S: "Solennità: ",
   F: "Festa: ",
   M: "Memoria: ",
+  m: "Memoria facoltativa: ",
   N: "",
 }
 
