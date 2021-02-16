@@ -57,6 +57,19 @@ function dateBattesimo(yyyy) {
   return dateToCheck;
 }
 
+function isDedicazioneDuomo(date) {
+  if (date.getUTCMonth() == 9 && date.getUTCDate() >=15 && date.getUTCDate() <=21 && date.getDay() == 0) {
+      return true;
+  }
+  return false;
+}
+
+function isIINatale(date) {
+  if (date.getUTCMonth() == 0 && date.getUTCDate() >=2 && date.getUTCDate() <=5 && date.getDay() == 0) {
+      return true;
+  }
+  return false;
+}
 function leapYear(year)
 {
   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
