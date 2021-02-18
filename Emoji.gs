@@ -24,7 +24,8 @@ const emojiColor= {
   S:EmojiCandle,
   B:EmojiBlackCircle,
   A:EmojiRosary,
-  T:EmojiPray
+  T:EmojiPray,
+  X:EmojiCherch
 }
 
 const stringColor= {
@@ -35,6 +36,7 @@ const stringColor= {
   S:"rosa",
   B:"nero",
   A:"azzurro",
+  X:""
 }
 
 const stringColorMailingList= {
@@ -45,6 +47,7 @@ const stringColorMailingList= {
   S:"Oggi paramenti rosa",
   B:"Oggi paramenti neri",
   A:"Oggi gioranta Mariana",
+  X:"Giornata aliturgica",
 }
 
 const codeColor= {
@@ -55,6 +58,7 @@ const codeColor= {
   S:"#E75480",
   B:"#FFFFFF",
   A:"#ABCDEF",
+  X:"#AAAAAA"
 }
 
 const emojiTempo = {

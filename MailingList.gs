@@ -7,15 +7,21 @@ function sendMailingList() {
 
   //image treatment
   var file = null
-  let findfile = DriveApp.getFolderById(ImageFolder).getFilesByName(dayObj.special+".jpg");
-  if (findfile.hasNext()) {file=findfile.next().getBlob(); Logger.log(file.getName())}
-  if (file != null)  { htmlVerse +="<br/><p>Immagine del giorno<br/><img src='cid:imageOfTheDay' style='width:480px'/></p>"; }
+  let folder = DriveApp.getFolderById(ImageFolder);
   
+  let findfile = folder.getFilesByName(dayObj.special+".jpg");
+  if (findfile.hasNext()) {
+    file=findfile.next().getBlob();
+  } else {
+    file=folder.getFilesByName(dayObj.baseImage).next().getBlob();
+  }
+  
+  htmlVerse +="<br/><p>Immagine del giorno<br/><img src='cid:imageOfTheDay' style='width:480px'/></p>";
+  
+  //debug!!!
+  //MailApp.sendEmail("kn35roby@gmail.com","Un Salmo al Giorno", "Salmo", {htmlBody : htmlVerse, name:"Un Salmo al giorno", inlineImages:{imageOfTheDay: file} } );
+ 
   for (var row in dataMailingList) {
-    if (file == null) {
-      MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlVerse, name:"Un Salmo al giorno"});
-    } else {
       MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlVerse, name:"Un Salmo al giorno", inlineImages:{imageOfTheDay: file} } );
-    }
   }
 }

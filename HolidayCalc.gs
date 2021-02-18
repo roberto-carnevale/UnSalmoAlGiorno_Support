@@ -8,11 +8,11 @@ function checkHolidayParametric(testDate) {
   var dateBattesimoVar = dateBattesimo(testDate.getFullYear());
   // calc differences
   let easterdifference = Math.trunc( ( testDate - easter.getTime() ) / millisPerDay );
-  let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay );
+  let adventdifference = Math.trunc( ( testDate - adventIVSun.getTime() ) / millisPerDay ); 
+  
   //initialize object
   let liturgicYear = (testDate.getFullYear() % 3);
-  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear};
-
+  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear, baseImage : "brand.jpg"};
 
   //tempi forti liturgici
   if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
@@ -23,10 +23,10 @@ function checkHolidayParametric(testDate) {
 
   // standard day, no holiday or feast or solemnity
   switch (currentDay.tempo) {
-    case "A": {currentDay.psalm="L";break;}
-    case "N": {currentDay.psalm="B";break;}
-    case "Q": {currentDay.psalm="D";break;}
-    case "P": {currentDay.psalm="G";break;}
+    case "A": {currentDay.psalm="L"; currentDay.baseImage="tempo-A.jpg"; break;}
+    case "N": {currentDay.psalm="B"; currentDay.baseImage="tempo-N.jpg"; break;}
+    case "Q": {currentDay.psalm="D"; currentDay.baseImage="tempo-Q.jpg"; break;}
+    case "P": {currentDay.psalm="G"; currentDay.baseImage="tempo-P.jpg"; break;}
     case "O": {
       switch (testDate.getUTCDay()) {
         case 1: {currentDay.psalm="B";break;}
@@ -88,6 +88,7 @@ function checkHolidayParametric(testDate) {
     currentDay.holy="N";
     currentDay.name= "Domenica della "+dictR2A[sunCount]+" Settimana " + yearEncode[liturgicYear];
     currentDay.special="D"+dictR2A[sunCount];
+    currentDay.baseImage="domenica.jpg";
     return currentDay;
   }
     // Fixed Holidays
@@ -125,7 +126,6 @@ function findDay (calendarData, level, search, currentDayObj) {
 }
 
 function findIndexDay (calendarData, testDate, level, currentDayObj) {
-  
   //calculates the number of days from 1 Jan
   let start = new Date(testDate.getFullYear(), 0, 1, 12 ,0 ,0,0);
   let diff = (testDate - start);

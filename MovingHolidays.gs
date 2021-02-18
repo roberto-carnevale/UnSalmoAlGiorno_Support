@@ -74,11 +74,3 @@ function leapYear(year)
 {
   return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
-
-/////////////////////////////////////////////TEST 
-function testDate() {
-  var testDate = new Date(2021, 5, 7);
-  testDate.setUTCHours(12, 0,0,0);
-  Logger.log("Date: "+testDate);
-  Logger.log("Res : "+checkHoliday(testDate));
-}

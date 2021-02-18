@@ -50,7 +50,7 @@ function createYear() {
 
 function createYear2() {
   var sh = SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName('TEST_Y');
-  var testDate = new Date(2022, 0, 1);
+  var testDate = new Date(2021, 0, 1);
   testDate.setUTCHours(12,0,0,0);
   var numDate = testDate.getTime();
   for (var i = 1; i< 366; i++) {
@@ -74,9 +74,7 @@ function createYear2() {
         sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
       }
     } 
-    sh.getRange("I"+i).setValue(jsonObj.yearA);
-    sh.getRange("J"+i).setValue(jsonObj.yearB);
-    sh.getRange("K"+i).setValue(jsonObj.yearC);
+    sh.getRange("I"+i).setValue(JSON.stringify(jsonObj));
     numDate += 86400000;
   }
 
