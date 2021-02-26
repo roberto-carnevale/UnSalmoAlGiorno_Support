@@ -25,11 +25,11 @@ function checkDate() {
         //connects DB Compieta
         var compietaObj = new CompietaOnGoogle();
 
-        let verseRow = compietaObj.selectVerse(now.getDay());
-        let salmoToSend = compietaObj.createNiceVerse(verseRow, now.getDay());
+        let verseRow = compietaObj.selectVerse(testDate.getDay());
+        let salmoToSend = compietaObj.createNiceVerse(verseRow, testDate.getDay());
 
         //record for twitter and Facebook
-        let compietaToRecord = "Compieta "+compietaObj.getDayString(now.getDay())+"### ###"+salmoToSend;
+        let compietaToRecord = "Compieta "+compietaObj.getDayString(testDate.getDay())+"### ###"+salmoToSend;
         setCompietaFull(compietaToRecord);
     } catch (err) {
       MailApp.sendEmail("kn35roby@gmail.com", "Compieta Selection Exception", err.toString() + "\r\n" + err.stack.toString())
