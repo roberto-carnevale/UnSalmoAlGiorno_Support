@@ -62,3 +62,8 @@ function getFacebookLikes() {
 function getAllUsers() {
   return getTelegramSubcribers()+getFacebookLikes()+getTwitterFollowers();
 }
+
+//compietaMsg
+function setCompietaFull(msg) {
+  readParams().getRange("B11").setValue(msg);
+}

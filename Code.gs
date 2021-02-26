@@ -19,7 +19,21 @@ function checkDate() {
       else {
         setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
       }
-    }  
+    }
+    //Finally select Compieta
+    try {
+        //connects DB Compieta
+        var compietaObj = new CompietaOnGoogle();
+
+        let verseRow = compietaObj.selectVerse(now.getDay());
+        let salmoToSend = compietaObj.createNiceVerse(verseRow, now.getDay());
+
+        //record for twitter and Facebook
+        let compietaToRecord = "Compieta "+compietaObj.getDayString(now.getDay())+"### ###"+salmoToSend;
+        setCompietaFull(compietaToRecord);
+    } catch (err) {
+      MailApp.sendEmail("kn35roby@gmail.com", "Compieta Selection Exception", err.toString() + "\r\n" + err.stack.toString())
+    }
       
   } catch (err) {
     MailApp.sendEmail("kn35roby@gmail.com", "Holiday Calculator Exception", err.toString() + "\r\n" + err.stack.toString())
