@@ -10,16 +10,12 @@ function checkDate() {
     setlastVerse(seedLine);
     setVerseFull(sog.getFinalVerse(seedLine, jsonObj));
     
-    if (jsonObj.text && jsonObj.text!="") {
-      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+jsonObj.text);
+    if (jsonObj.name != "" ) {
+      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
     } else {
-      if (jsonObj.name != "" ) {
-        setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
-      }
-      else {
-        setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
-      }
+      setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
     }
+    
     //Finally select Compieta
     try {
         //connects DB Compieta
@@ -78,17 +74,13 @@ function createYear2() {
     sh.getRange("E"+i).setValue(jsonObj.holy);
     sh.getRange("F"+i).setValue(jsonObj.psalm);
     sh.getRange("G"+i).setValue(jsonObj.special);
-    if (jsonObj.text && jsonObj.text!="") {
-      sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+jsonObj.text);
+    if (jsonObj.name != "" ) {
+      sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
     } else {
-      if (jsonObj.name != "" ) {
-        sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
-      }
-      else {
-        sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
-      }
-    } 
-    sh.getRange("I"+i).setValue(JSON.stringify(jsonObj));
+      sh.getRange("H"+i).setValue(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
+    }
+    sh.getRange("I"+i).setValue(jsonObj.text);
+    sh.getRange("J"+i).setValue(JSON.stringify(jsonObj));
     numDate += 86400000;
   }
 
