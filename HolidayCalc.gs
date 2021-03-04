@@ -103,24 +103,39 @@ function checkHolidayParametric(testDate) {
 }
 
 function findDay (calendarData, level, search, currentDayObj) {
-  //search mobile days
-  for (let i in calendarData) {
-    //if right level
-    if (level == calendarData[i][1]){
-      //if exists
-      if (search == calendarData[i][0]) {
-        //complete data
-        currentDayObj.name = calendarData[i][3];
-        currentDayObj.holy = calendarData[i][4];
-        if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
-        if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
-        if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
-        if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
-        if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
-        if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
-      }
-    }
+  let  i= 0;
+  i = calendarData.findIndex( element => element[0] == search, search)
+  
+  if (i > 0 && calendarData[i][1]== level) {
+    //complete data
+    currentDayObj.name = calendarData[i][3];
+    currentDayObj.holy = calendarData[i][4];
+    if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
+    if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
+    if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
+    if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
+    if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
+    if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
   }
+  
+  // //search mobile days
+  // for (let i in calendarData) {
+  //   //if right level
+  //   if (level == calendarData[i][1]){
+  //     //if exists
+  //     if (search == calendarData[i][0]) {
+  //       //complete data
+  //       currentDayObj.name = calendarData[i][3];
+  //       currentDayObj.holy = calendarData[i][4];
+  //       if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
+  //       if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
+  //       if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
+  //       if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
+  //       if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
+  //       if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
+  //     }
+  //   }
+  // }
   return currentDayObj;
 
 }
