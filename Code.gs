@@ -42,7 +42,7 @@ function createYear() {
   var testDate = new Date(2021, 0, 1);
   testDate.setUTCHours(12,0,0,0);
   var numDate = testDate.getTime();
-  for (var i = 1; i< 366; i++) {
+  for (var i = 1; i< 365; i++) {
     testDate.setTime(numDate);
     Logger.log(testDate);
     let jsonObj = checkHolidayParametric(testDate);

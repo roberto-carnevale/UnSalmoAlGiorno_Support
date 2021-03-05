@@ -20,14 +20,32 @@ function checkHolidayParametric(testDate) {
   if (adventdifference >= -21 && adventdifference <7) {currentDay.psalm="L";currentDay.color="V";currentDay.tempo = "A";}
   if (testDate.getUTCMonth() == 0 && testDate.getUTCDate() <= dateBattesimoVar.getUTCDate()) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
   if (testDate.getUTCMonth() == 11 && testDate.getUTCDate() >= 25) {currentDay.psalm="B";currentDay.color="W";currentDay.tempo = "N";}
+  
+  let folder = DriveApp.getFolderById(ImageFolder);
+  let countImages = {'A':0,'P':0,'Q':0,'N':0,'O':0,'d':0};
+  let findfile = folder.getFiles();
+  while (findfile.hasNext()) {
+    let file= findfile.next();
+    if (file.getName().substring(0,6) == "tempo-") {
+      switch (file.getName().substring(6,7)) {
+        case "A": {countImages['A']++;break;}
+        case "P": {countImages['P']++;break;}
+        case "Q": {countImages['Q']++;break;}
+        case "N": {countImages['N']++;break;}
+        case "O": {countImages['O']++;break;}
+        case "d": {countImages['d']++;break;}
+      }
+    }
+  }
 
   // standard day, no holiday or feast or solemnity
   switch (currentDay.tempo) {
-    case "A": {currentDay.psalm="L"; currentDay.baseImage="tempo-A.jpg"; break;}
-    case "N": {currentDay.psalm="B"; currentDay.baseImage="tempo-N.jpg"; break;}
-    case "Q": {currentDay.psalm="D"; currentDay.baseImage="tempo-Q.jpg"; break;}
-    case "P": {currentDay.psalm="G"; currentDay.baseImage="tempo-P.jpg"; break;}
+    case "A": {currentDay.psalm="L"; currentDay.baseImage="tempo-A_"+ (testDate.getUTCDate() % countImages['A']).toString() +".jpg"; break;}
+    case "N": {currentDay.psalm="B"; currentDay.baseImage="tempo-N_"+ (testDate.getUTCDate() % countImages['N']).toString() +".jpg"; break;}
+    case "Q": {currentDay.psalm="D"; currentDay.baseImage="tempo-Q_"+ (testDate.getUTCDate() % countImages['Q']).toString() +".jpg"; break;}
+    case "P": {currentDay.psalm="G"; currentDay.baseImage="tempo-P_"+ (testDate.getUTCDate() % countImages['P']).toString() +".jpg"; break;}
     case "O": {
+      currentDay.baseImage="tempo-O_"+ (testDate.getUTCDate() % countImages['O']).toString() +".jpg";
       switch (testDate.getUTCDay()) {
         case 1: {currentDay.psalm="B";break;}
         case 2: {currentDay.psalm="D";break;}
@@ -88,7 +106,7 @@ function checkHolidayParametric(testDate) {
     currentDay.holy="N";
     currentDay.name= "Domenica della "+dictR2A[sunCount]+" Settimana " + yearEncode[liturgicYear];
     currentDay.special="D"+dictR2A[sunCount];
-    currentDay.baseImage="domenica.jpg";
+    currentDay.baseImage="tempo-d_"+ (testDate.getUTCDate() % countImages['d']).toString() +".jpg"
     return currentDay;
   }
     // Fixed Holidays
@@ -106,7 +124,7 @@ function findDay (calendarData, level, search, currentDayObj) {
   let  i= 0;
   i = calendarData.findIndex( element => element[0] == search, search)
   
-  if (i > 0 && calendarData[i][1]== level) {
+  if (i > 0) {     //avoid check level since everything is 1 ==> calendarData[i][1]== level
     //complete data
     currentDayObj.name = calendarData[i][3];
     currentDayObj.holy = calendarData[i][4];
@@ -117,25 +135,6 @@ function findDay (calendarData, level, search, currentDayObj) {
     if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
     if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
   }
-  
-  // //search mobile days
-  // for (let i in calendarData) {
-  //   //if right level
-  //   if (level == calendarData[i][1]){
-  //     //if exists
-  //     if (search == calendarData[i][0]) {
-  //       //complete data
-  //       currentDayObj.name = calendarData[i][3];
-  //       currentDayObj.holy = calendarData[i][4];
-  //       if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
-  //       if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
-  //       if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
-  //       if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
-  //       if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
-  //       if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
-  //     }
-  //   }
-  // }
   return currentDayObj;
 
 }
