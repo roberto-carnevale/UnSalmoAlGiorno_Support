@@ -23,5 +23,6 @@ function sendMailingList() {
  
   for (var row in dataMailingList) {
       MailApp.sendEmail(dataMailingList[row][0],"Un Salmo al Giorno", "Salmo", {htmlBody : htmlVerse, name:"Un Salmo al giorno", inlineImages:{imageOfTheDay: file} } );
+      Logger.log(dataMailingList[row][0]);
   }
 }

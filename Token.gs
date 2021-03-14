@@ -7,4 +7,5 @@ const SalmiDBByTypeTab = "salmi-it-type";
 const SalmiDBFixCal = "calendario-fissi";
 const SalmiDBMovingCal = "calendario-mobili";
 const SubscriberParams = "Params";
+const SalmiDBCompieta = "compieta";
 const ImageFolder = "16fgZ4yKCc2c-tOmkyuFNFU-_4Oewu4Fz";
