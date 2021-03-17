@@ -67,3 +67,7 @@ function getAllUsers() {
 function setCompietaFull(msg) {
   readParams().getRange("B11").setValue(msg);
 }
+
+function setsetCompietaImage(img) {
+  readParams().getRange("B12").setValue(img);
+}

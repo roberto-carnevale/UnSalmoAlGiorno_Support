@@ -29,6 +29,7 @@ function checkDate() {
         //record for twitter and Facebook
         let compietaToRecord = "Compieta "+compietaObj.getDayString(testDate.getDay())+"### ###"+salmoToSend;
         setCompietaFull(compietaToRecord);
+        setCompietaImage("compieta_"+ Math.round(Math.random() * 10) +".jpg")
     } catch (err) {
       MailApp.sendEmail("kn35roby@gmail.com", "Compieta Selection Exception", err.toString() + "\r\n" + err.stack.toString())
     }
