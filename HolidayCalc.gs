@@ -1,5 +1,5 @@
 function checkHolidayParametric(testDate) {
-  sog = new SalmiOnGoogle();
+  // *** sog is a global singleton
   //set noon UTC
   testDate.setUTCHours(12, 0,0,0);
   // Easter & Christmas dates

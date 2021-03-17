@@ -44,12 +44,5 @@ SalmiOnGoogle.prototype.getFinalVerse = function(seedLine, jsonDay) {
   return finalVerse;
 }
 
-
-//Testing function. Use locally
-function test(){
-  var f = new SalmiOnGoogle();
-  var r = f.selectSpecialCite("P-47");
-  Logger.log(f);
-}
     
 

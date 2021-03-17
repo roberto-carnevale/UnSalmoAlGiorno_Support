@@ -1,4 +1,6 @@
 function checkDate() {
+  //creates a global singleton
+  sog = new SalmiOnGoogle();
   var testDate = new Date();
   testDate.setUTCHours(12,0,0,0);
   try {
@@ -38,8 +40,10 @@ function checkDate() {
 
 
 function createYear() {
+  //creates a global singleton
+  sog = new SalmiOnGoogle();
   var sh = SpreadsheetApp.openById(SubscriberSpreadsheet).getSheetByName('TEST_Y');
-  var testDate = new Date(2021, 0, 1);
+  var testDate = new Date(2021, 2, 1);
   testDate.setUTCHours(12,0,0,0);
   var numDate = testDate.getTime();
   for (var i = 1; i< 365; i++) {
