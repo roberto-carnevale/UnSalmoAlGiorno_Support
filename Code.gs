@@ -7,7 +7,6 @@ function checkDate() {
     let jsonObj = checkHolidayParametric(testDate);
     setLiturgicday(jsonObj);
 
-    var sog = new SalmiOnGoogle();
     let seedLine = sog.selectTypeVerse(jsonObj.psalm);
     setlastVerse(seedLine);
     setVerseFull(sog.getFinalVerse(seedLine, jsonObj));
@@ -29,7 +28,8 @@ function checkDate() {
         //record for twitter and Facebook
         let compietaToRecord = "Compieta "+compietaObj.getDayString(testDate.getDay())+"### ###"+salmoToSend;
         setCompietaFull(compietaToRecord);
-        setCompietaImage("compieta_"+ Math.round(Math.random() * 10) +".jpg")
+        let r = Math.round(Math.random() * 9)
+        setCompietaImage("compieta_"+ r.toString() +".jpg")
     } catch (err) {
       MailApp.sendEmail("kn35roby@gmail.com", "Compieta Selection Exception", err.toString() + "\r\n" + err.stack.toString())
     }

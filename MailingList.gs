@@ -3,6 +3,7 @@ function sendMailingList() {
 
   let dayObj = getLiturgicDay();
   let htmlVerse = "<html><body><font style='color:"+codeColor[dayObj.color]+"'><b>"+stringColorMailingList[dayObj.color]+"</b></font><br/>"+getdayFull().toString().replace(/###/g,"<br/>")+"<br/>";
+  if (dayObj.text) {htmlVerse += "<br/>" + dayObj.text.toString().replace(/###/g,"<br/>"); }
   htmlVerse += lastVerseFull().toString().replace(/###/g,"<br/>")+"</body></html>";
 
   //image treatment
