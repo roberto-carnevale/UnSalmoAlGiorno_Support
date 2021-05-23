@@ -2,6 +2,7 @@ function SalmiOnGoogle() {
   //set up tab
   this.dataSpreadsheet = SpreadsheetApp.openById(SalmiDBSpreadsheet);
   this.tabData = this.dataSpreadsheet.getSheetByName(SalmiDBByTypeTab);
+  this.tabDataES = this.dataSpreadsheet.getSheetByName(SalmiDBTabES);
   this.tabSpecial = this.dataSpreadsheet.getSheetByName("special-days");
   this.calendarFixData = this.dataSpreadsheet.getSheetByName(SalmiDBFixCal).getDataRange().getValues();
   this.calendarMovingData = this.dataSpreadsheet.getSheetByName(SalmiDBMovingCal).getDataRange().getValues();
@@ -27,6 +28,11 @@ SalmiOnGoogle.prototype.getVerseData = function(seedT) {
   return this.tabData.getRange("A"+seedT.toString()+":D"+seedT.toString()).getValues();
 }
 
+SalmiOnGoogle.prototype.getVerseDataES = function(seedT) {
+  //gets the verse
+  return this.tabDataES.getRange("A"+seedT.toString()+":D"+seedT.toString()).getValues();
+}
+
 // SalmiOnGoogle.prototype.niceVerseForWeb = function() {
 //   let htmlVerse = lastVerseFull().toString().replace(/###/g,"<br/>");
 //   return htmlVerse;
@@ -44,5 +50,16 @@ SalmiOnGoogle.prototype.getFinalVerse = function(seedLine, jsonDay) {
   return finalVerse;
 }
 
+//Draws a verse matching the type
+SalmiOnGoogle.prototype.getFinalVerseES = function(seedLine, jsonDay) {
+  let verseRaw = this.getVerseDataES(seedLine);
+  let finalVerse = verseRaw[0][0]+","+verseRaw[0][1] + "###" + verseRaw[0][2].toString();
+  return finalVerse;
+}
+
+function testES() {
+  var sog=new SalmiOnGoogle();
+  Logger.log(sog.getFinalVerseES(1865, {}));
+}
     
 

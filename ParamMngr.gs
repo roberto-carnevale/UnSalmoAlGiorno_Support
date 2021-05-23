@@ -19,6 +19,10 @@ function lastVerseFull() {
 function setVerseFull(string) {
   readParams().getRange("B8").setValue(string);
 }
+function setVerseFullES(string) {
+  readParams().getRange("B13").setValue(string);
+}
+
 
 function setdayFull(string) {
   readParams().getRange("B9").setValue(string);

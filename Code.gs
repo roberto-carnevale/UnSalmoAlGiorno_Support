@@ -10,6 +10,7 @@ function checkDate() {
     let seedLine = sog.selectTypeVerse(jsonObj.psalm);
     setlastVerse(seedLine);
     setVerseFull(sog.getFinalVerse(seedLine, jsonObj));
+    setVerseFullES(sog.getFinalVerseES(seedLine, jsonObj));
     
     if (jsonObj.name != "" ) {
       setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
