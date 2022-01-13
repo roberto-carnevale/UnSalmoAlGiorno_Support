@@ -6,18 +6,35 @@ function checkDate() {
   try {
     let jsonObj = checkHolidayParametric(testDate);
     setLiturgicday(jsonObj);
-
-    let seedLine = sog.selectTypeVerse(jsonObj.psalm);
+    let seedLine = 0;
+    if (jsonObj.hasOwnProperty('fixedSeed')) {
+      seedLine = jsonObj.fixedSeed;
+    } else {
+      seedLine = sog.selectTypeVerse(jsonObj.psalm);
+    }
     setlastVerse(seedLine);
     setVerseFull(sog.getFinalVerse(seedLine, jsonObj));
     setVerseFullES(sog.getFinalVerseES(seedLine, jsonObj));
+    setVerseFullEN(sog.getFinalVerseEN(seedLine, jsonObj));
     
     if (jsonObj.name != "" ) {
       setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]+"###"+stringsHoly[jsonObj.holy]+jsonObj.name);
     } else {
       setdayFull(emojiTempo[jsonObj.tempo]+stringsTempo[jsonObj.tempo]);
     }
-    
+
+    if (jsonObj.nameES != "" ) {
+      setdayFullES(emojiTempo[jsonObj.tempo]+stringsTempoES[jsonObj.tempo]+"###"+stringsHolyES[jsonObj.holy]+jsonObj.nameES);
+    } else {
+      setdayFullES(emojiTempo[jsonObj.tempo]+stringsTempoES[jsonObj.tempo]);
+    }
+
+    if (jsonObj.nameEN != "" ) {
+      setdayFullEN(emojiTempo[jsonObj.tempo]+stringsTempoEN[jsonObj.tempo]+"###"+stringsHolyEN[jsonObj.holy]+jsonObj.nameEN);
+    } else {
+      setdayFullEN(emojiTempo[jsonObj.tempo]+stringsTempoEN[jsonObj.tempo]);
+    }
+
     //Finally select Compieta
     try {
         //connects DB Compieta

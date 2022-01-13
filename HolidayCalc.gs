@@ -12,7 +12,7 @@ function checkHolidayParametric(testDate) {
   
   //initialize object
   let liturgicYear = (testDate.getFullYear() % 3);
-  currentDay = {name:"", psalm:"", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear, baseImage : "brand.jpg"};
+  currentDay = {name:"", psalm:"G", tempo:"O" , color:"G", holy:null, liturgicYear: liturgicYear, baseImage : "brand.jpg", nameES:"" , nameEN:"" ,nameFR:""};
 
   //tempi forti liturgici
   if (easterdifference >= -46 && easterdifference <0) {currentDay.psalm="D"; currentDay.color="V"; currentDay.tempo = "Q";}
@@ -104,7 +104,10 @@ function checkHolidayParametric(testDate) {
     let liturgicYear = (testDate.getFullYear() % 3);
     currentDay.psalm="G";
     currentDay.holy="N";
-    currentDay.name= "Domenica della "+dictR2A[sunCount]+" Settimana " + yearEncode[liturgicYear];
+    currentDay.name= "Domenica della "+dictR2A[sunCount]+" Settimana (" + yearEncode[liturgicYear] + ")";
+    currentDay.nameES = dictR2A[sunCount] +" Domingo del Tiempo Ordinario";
+    currentDay.nameEN = dictR2E[sunCount] +" Sunday in Ordinary Time";
+    currentDay.nameFR = sunCount +"e Dimanche du Temps Ordinaire";
     currentDay.special="D"+dictR2A[sunCount];
     currentDay.baseImage="tempo-d_"+ (testDate.getUTCDate() % countImages['d']).toString() +".jpg"
     return currentDay;
@@ -131,9 +134,13 @@ function findDay (calendarData, level, search, currentDayObj) {
     if (calendarData[i][2]) {currentDayObj.text = calendarData[i][2];}
     if (calendarData[i][5]) {currentDayObj.color = calendarData[i][5];}
     if (calendarData[i][6]) {currentDayObj.psalm = calendarData[i][6];}
-    if (calendarData[i][7]) {currentDayObj.yearA = calendarData[i][7];}
-    if (calendarData[i][8]) {currentDayObj.yearB = calendarData[i][8];}
-    if (calendarData[i][9]) {currentDayObj.yearC = calendarData[i][9];}
+    if (calendarData[i][7]) {currentDayObj.fixedSeed = calendarData[i][7];}
+    if (calendarData[i][8]) {currentDayObj.nameES = calendarData[i][8];}
+    if (calendarData[i][9]) {currentDayObj.textES = calendarData[i][9];}
+    if (calendarData[i][10]) {currentDayObj.nameEN = calendarData[i][10];}
+    if (calendarData[i][11]) {currentDayObj.textEN = calendarData[i][11];}
+    if (calendarData[i][12]) {currentDayObj.nameFR = calendarData[i][12];}
+    if (calendarData[i][13]) {currentDayObj.textFR = calendarData[i][13];}
   }
   return currentDayObj;
 
@@ -153,9 +160,13 @@ function findIndexDay (calendarData, testDate, level, currentDayObj) {
     if (calendarData[index][2] && calendarData[index][2] != "") {currentDayObj.text = calendarData[index][2];}
     if (calendarData[index][5] && calendarData[index][5] != "") {currentDayObj.color = calendarData[index][5];}
     if (calendarData[index][6] && calendarData[index][6] != "") {currentDayObj.psalm = calendarData[index][6];}
-    if (calendarData[index][7] && calendarData[index][7] != "") {currentDayObj.yearA = calendarData[index][7];}
-    if (calendarData[index][8] && calendarData[index][8] != "") {currentDayObj.yearB = calendarData[index][8];}
-    if (calendarData[index][9] && calendarData[index][9] != "") {currentDayObj.yearC = calendarData[index][9];}
+    if (calendarData[index][7] && calendarData[index][7] != "") {currentDayObj.fixedSeed = calendarData[index][7];}
+    if (calendarData[index][8] && calendarData[index][8] != "") {currentDayObj.nameES = calendarData[index][8];}
+    if (calendarData[index][9] && calendarData[index][9] != "") {currentDayObj.textES = calendarData[index][9];}
+    if (calendarData[index][10] && calendarData[index][10] != "") {currentDayObj.nameEN = calendarData[index][10];}
+    if (calendarData[index][11] && calendarData[index][11] != "") {currentDayObj.textEN = calendarData[index][11];}
+    if (calendarData[index][12] && calendarData[index][12] != "") {currentDayObj.nameFR = calendarData[index][12];}
+    if (calendarData[index][13] && calendarData[index][13] != "") {currentDayObj.textFR = calendarData[index][13];}
   }
   return currentDayObj;
 

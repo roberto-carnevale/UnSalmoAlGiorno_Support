@@ -86,3 +86,36 @@ const stringsTempo = {
   O: "Tempo ordinario",
   T: "Triduo Pasquale"
 }
+
+const stringsTempoES = {
+  A: "Adviento",
+  Q: "Cuaresma",
+  P: "Tiempo Pascual",
+  N: "Tiempo de Navidad",
+  O: "Tiempo Ordinario",
+  T: "Triduo Pascual"
+}
+const stringsHolyES = {
+  S: "Solemindad: ",
+  F: "Fiesta: ",
+  M: "Memoria obligatoria: ",
+  m: "Memoria facultativa: ",
+  N: "",
+}
+const stringsTempoEN = {
+  A: "Advent",
+  Q: "Lent",
+  P: "Easter",
+  N: "Christmas",
+  O: "Per annum",
+  T: "Paschal Triduum"
+}
+
+const stringsHolyEN = {
+  S: "Solemnity: ",
+  F: "Feast: ",
+  M: "Memory: ",
+  m: "Optional Memory: ",
+  N: "",
+}
+

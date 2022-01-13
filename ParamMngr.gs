@@ -9,6 +9,12 @@ function readDebugChat() {
 function sendMessage() {
   return (parseInt(readParams().getRange("B1").getValue()));
 }
+
+//weekMsg
+function getWeekMsg () {
+  return readParams().getRange("B10").getValue();
+}
+
 function lastVerse() {
   return (parseInt(readParams().getRange("B2").getValue()));
 }
@@ -22,6 +28,9 @@ function setVerseFull(string) {
 function setVerseFullES(string) {
   readParams().getRange("B13").setValue(string);
 }
+function setVerseFullEN(string) {
+  readParams().getRange("B19").setValue(string);
+}
 
 
 function setdayFull(string) {
@@ -30,8 +39,12 @@ function setdayFull(string) {
 function getdayFull() {
   return readParams().getRange("B9").getValue();
 }
-
-
+function setdayFullES(string) {
+  readParams().getRange("B18").setValue(string);
+}
+function setdayFullEN(string) {
+  readParams().getRange("B21").setValue(string);
+}
 // function lastSentUsers() {
 //   return (parseInt(readParams().getRange("B3").getValue()));
 // }
@@ -64,7 +77,7 @@ function getFacebookLikes() {
 }
 
 function getAllUsers() {
-  return getTelegramSubcribers()+getFacebookLikes()+getTwitterFollowers();
+  return readParams().getRange("B16").getValue();
 }
 
 //compietaMsg

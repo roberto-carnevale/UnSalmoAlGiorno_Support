@@ -3,7 +3,7 @@ function SalmiOnGoogle() {
   this.dataSpreadsheet = SpreadsheetApp.openById(SalmiDBSpreadsheet);
   this.tabData = this.dataSpreadsheet.getSheetByName(SalmiDBByTypeTab);
   this.tabDataES = this.dataSpreadsheet.getSheetByName(SalmiDBTabES);
-  this.tabSpecial = this.dataSpreadsheet.getSheetByName("special-days");
+  this.tabDataEN = this.dataSpreadsheet.getSheetByName(SalmiDBTabEN);
   this.calendarFixData = this.dataSpreadsheet.getSheetByName(SalmiDBFixCal).getDataRange().getValues();
   this.calendarMovingData = this.dataSpreadsheet.getSheetByName(SalmiDBMovingCal).getDataRange().getValues();
 }
@@ -33,27 +33,34 @@ SalmiOnGoogle.prototype.getVerseDataES = function(seedT) {
   return this.tabDataES.getRange("A"+seedT.toString()+":D"+seedT.toString()).getValues();
 }
 
+SalmiOnGoogle.prototype.getVerseDataEN = function(seedT) {
+  //gets the verse
+  return this.tabDataEN.getRange("A"+seedT.toString()+":D"+seedT.toString()).getValues();
+}
+
 // SalmiOnGoogle.prototype.niceVerseForWeb = function() {
 //   let htmlVerse = lastVerseFull().toString().replace(/###/g,"<br/>");
 //   return htmlVerse;
 // }
 
 //Draws a verse matching the type
-SalmiOnGoogle.prototype.getFinalVerse = function(seedLine, jsonDay) {
+SalmiOnGoogle.prototype.getFinalVerse = function(seedLine) {
   let verseRaw = this.getVerseData(seedLine);
   let finalVerse = verseRaw[0][0]+","+verseRaw[0][2] + "###" + verseRaw[0][3].toString();
-  switch (jsonDay.liturgicYear) {
-    case 1: if (jsonDay.yearA && jsonDay.yearA != "") {finalVerse =jsonDay.yearA; break; }
-    case 2: if (jsonDay.yearB && jsonDay.yearB != "") {finalVerse =jsonDay.yearB; break; }
-    case 0: if (jsonDay.yearC && jsonDay.yearC != "") {finalVerse =jsonDay.yearC; break; }
-  }
   return finalVerse;
 }
 
 //Draws a verse matching the type
-SalmiOnGoogle.prototype.getFinalVerseES = function(seedLine, jsonDay) {
+SalmiOnGoogle.prototype.getFinalVerseES = function(seedLine) {
   let verseRaw = this.getVerseDataES(seedLine);
   let finalVerse = verseRaw[0][0]+","+verseRaw[0][1] + "###" + verseRaw[0][2].toString();
+  return finalVerse;
+}
+
+//Draws a verse matching the type
+SalmiOnGoogle.prototype.getFinalVerseEN = function(seedLine) {
+  let verseRaw = this.getVerseDataEN(seedLine);
+  let finalVerse = verseRaw[0][0]+":"+verseRaw[0][1] + "###" + verseRaw[0][2].toString();
   return finalVerse;
 }
 
